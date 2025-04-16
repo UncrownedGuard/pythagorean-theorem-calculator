@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pythagorean Theorem Calculator</title>
+  <style>
+    :root {
+      --primary: #0b5394;
+      --accent: #3d85c6;
+      --text-light: #dae6f3;
+      --text-dark: #353c41;
+      --bg-dark: #1e1e1e;
+      --bg-box: #2c2c2c;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 30px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .calculator-container {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: var(--bg-box);
+      border-radius: 10px;
+      max-width: 800px;
+      padding: 20px;
+      border: 1px solid var(--primary);
+      gap: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .calculator-image {
+      flex: 1 1 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator-image img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .calculator-form {
+      flex: 2 1 300px;
+    }
+
+    .calculator-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      border: 1px solid var(--primary);
+      border-radius: 5px;
+      background-color: #353c41;
+      color: var(--text-light);
+      font-size: 1em;
+    }
+
+    input[type="button"] {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    input[type="button"]:hover {
+      background-color: var(--accent);
+      color: var(--text-dark);
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+
+    @media (prefers-color-scheme: light) {
+      body {
+        background-color: #ffffff;
+        color: var(--text-dark);
+      }
+
+      .calculator-container {
+        background-color: #f5f5f5;
+        border-color: var(--accent);
+      }
+
+      input[type="number"] {
+        background-color: #dae6f3;
+        color: var(--text-dark);
+      }
+
+      input[type="button"] {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      input[type="button"]:hover {
+        background-color: var(--accent);
+        color: var(--text-dark);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator-container">
+    <div class="calculator-image">
+      <img src="https://content.invisioncic.com/c324741/pages_media/748935160_PythagoreanTheoremCalculator.gif?_cb=1709714570" alt="Right-Angled Triangle">
+    </div>
+    <div class="calculator-form">
+      <form id="pythagoreanForm">
+        <label for="sideA">Length of side A:</label>
+        <input type="number" id="sideA" name="sideA" step="any" placeholder="Enter side A">
+
+        <label for="sideB">Length of side B:</label>
+        <input type="number" id="sideB" name="sideB" step="any" placeholder="Enter side B">
+
+        <label for="sideC">Length of side C (Hypotenuse):</label>
+        <input type="number" id="sideC" name="sideC" step="any" placeholder="Enter side C">
+
+        <input type="button" value="Calculate" onclick="calculatePythagorean()">
+      </form>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    function calculatePythagorean() {
+      let sideA = parseFloat(document.getElementById('sideA').value);
+      let sideB = parseFloat(document.getElementById('sideB').value);
+      let sideC = parseFloat(document.getElementById('sideC').value);
+      let result = document.getElementById('result');
+
+      function truncateToDecimalPlaces(num, decimalPlaces) {
+        const numString = num.toString();
+        const index = numString.indexOf('.');
+        if (index !== -1) {
+          return numString.substring(0, index + decimalPlaces + 1);
+        }
+        return numString;
+      }
+
+      if (sideA && sideB && !sideC) {
+        let hypotenuse = Math.sqrt(sideA**2 + sideB**2);
+        result.innerHTML = '<strong>Result:</strong> The length of the hypotenuse (C) is ' + truncateToDecimalPlaces(hypotenuse, 8);
+      } else if (sideA && sideC && !sideB) {
+        let side = Math.sqrt(sideC**2 - sideA**2);
+        result.innerHTML = '<strong>Result:</strong> The length of side B is ' + truncateToDecimalPlaces(side, 8);
+      } else if (sideB && sideC && !sideA) {
+        let side = Math.sqrt(sideC**2 - sideB**2);
+        result.innerHTML = '<strong>Result:</strong> The length of side A is ' + truncateToDecimalPlaces(side, 8);
+      } else {
+        result.innerHTML = '<strong>Error:</strong> Please provide exactly two values to calculate the third.';
+      }
+    }
+  </script>
+
+</body>
+</html>
